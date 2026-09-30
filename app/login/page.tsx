@@ -4,22 +4,34 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { LOGO_URL } from '@/components/Sidebar';
-import { Lock, Mail } from 'lucide-react';
+import { Lock, Mail, AlertCircle } from 'lucide-react';
+import { createClient } from '@/lib/supabase/client';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
   const router = useRouter();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // Mock login for Phase 1
-    setTimeout(() => {
+    setErrorMsg('');
+    
+    const supabase = createClient();
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      setErrorMsg(error.message === 'Invalid login credentials' ? 'E-mail ou senha incorretos.' : error.message);
       setLoading(false);
-      router.push('/inicio');
-    }, 1000);
+      return;
+    }
+
+    router.push('/inicio');
   };
 
   return (
@@ -37,6 +49,12 @@ export default function LoginPage() {
         </div>
 
         <div className="p-8">
+          {errorMsg && (
+            <div className="mb-6 p-3.5 rounded-xl bg-red-50 border border-red-200 flex items-start gap-3">
+              <AlertCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
+              <p className="text-sm font-semibold text-red-800">{errorMsg}</p>
+            </div>
+          )}
           <form onSubmit={handleLogin} className="space-y-5">
             <div>
               <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
