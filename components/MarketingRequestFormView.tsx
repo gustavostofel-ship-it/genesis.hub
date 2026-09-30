@@ -25,6 +25,8 @@ import {
 } from 'lucide-react';
 import { RequestItem } from '@/lib/data';
 import { useRequests } from '@/hooks/use-requests';
+import toast from 'react-hot-toast';
+
 
 interface MarketingRequestFormViewProps {
   onBackToRequests: () => void;
@@ -97,7 +99,7 @@ export default function MarketingRequestFormView({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim() || !description.trim()) {
-      alert('Por favor, preencha os campos obrigatórios do briefing.');
+      toast.error('Por favor, preencha os campos obrigatórios do briefing.');
       return;
     }
 
@@ -691,7 +693,7 @@ export default function MarketingRequestFormView({
               <div className="mt-2 pt-3 border-t border-slate-100 text-center">
                 <button
                   type="button"
-                  onClick={() => alert('Política de SLA: Marketing Hub Genesis - Resolução Normativa #04/2025.')}
+                  onClick={() => toast('Em desenvolvimento: Política de SLA: Marketing Hub Genesis - Resolução Normativa #04/2025.', { icon: '🚧' })}
                   className="text-xs font-semibold text-blue-600 hover:underline inline-flex items-center gap-1"
                 >
                   <span>Ver política completa de atendimento do Marketing</span>

@@ -26,6 +26,8 @@ import {
 } from 'lucide-react';
 import { Employee } from '@/lib/data';
 import { usePeople } from '@/hooks/use-people';
+import toast from 'react-hot-toast';
+
 
 interface PeopleViewProps {
   searchQuery: string;
@@ -51,7 +53,7 @@ export default function PeopleView({
   const toggleFavorite = (empId: string, e: React.MouseEvent) => {
     e.stopPropagation();
     // Simulate optimistic update for favorites in memory for Phase 1
-    alert('Ação registrada na camada de serviço.');
+    toast('Em desenvolvimento: Ação registrada na camada de serviço.', { icon: '🚧' });
   };
 
   const filteredEmployees = useMemo(() => {
@@ -141,7 +143,7 @@ export default function PeopleView({
             </div>
 
             <button
-              onClick={() => alert('Visualização de Organograma e Hierarquias Corporativas.')}
+              onClick={() => toast('Em desenvolvimento: Visualização de Organograma e Hierarquias Corporativas.', { icon: '🚧' })}
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 text-white font-semibold text-xs sm:text-sm hover:bg-blue-700 transition-colors shadow-xs"
             >
               <Users className="w-4 h-4" />
@@ -467,7 +469,7 @@ export default function PeopleView({
                     </button>
 
                     <button
-                      onClick={() => alert(`Iniciando chat corporativo com ${emp.name}`)}
+                      onClick={() => toast(`Em desenvolvimento: Iniciando chat corporativo com ${emp.name}`, { icon: '🚧' })}
                       className="inline-flex items-center justify-center h-10 w-10 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors"
                       title="Mensagem interna"
                     >

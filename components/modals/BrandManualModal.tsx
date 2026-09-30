@@ -4,6 +4,8 @@ import React from 'react';
 import Image from 'next/image';
 import { X, Download, BookOpen, Check, Palette, FileText } from 'lucide-react';
 import { LOGO_URL } from '../Sidebar';
+import toast from 'react-hot-toast';
+
 
 interface BrandManualModalProps {
   isOpen: boolean;
@@ -62,7 +64,7 @@ export default function BrandManualModal({ isOpen, onClose }: BrandManualModalPr
                 </div>
               </div>
               <button
-                onClick={() => alert('Download do pacote SVG/PNG do logotipo iniciado.')}
+                onClick={() => toast('Em desenvolvimento: Download do pacote SVG/PNG do logotipo iniciado.', { icon: '🚧' })}
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-50 text-blue-700 hover:bg-blue-100 text-xs font-semibold transition-colors"
               >
                 <Download className="w-4 h-4" />

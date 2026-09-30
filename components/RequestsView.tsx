@@ -33,6 +33,8 @@ import {
 } from 'lucide-react';
 import { RequestItem } from '@/lib/data';
 import { useRequests } from '@/hooks/use-requests';
+import toast from 'react-hot-toast';
+
 
 interface RequestsViewProps {
   onOpenMarketingForm: () => void;
@@ -114,7 +116,7 @@ export default function RequestsView({
           {/* Action Group */}
           <div className="flex items-center gap-3 self-start md:self-center shrink-0">
             <button
-              onClick={() => alert('Histórico completo de chamados finalizados e arquivados.')}
+              onClick={() => toast('Em desenvolvimento: Histórico completo de chamados finalizados e arquivados.', { icon: '🚧' })}
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-slate-200/80 text-slate-700 font-semibold text-xs sm:text-sm shadow-xs hover:bg-slate-50 transition-colors"
             >
               <History className="w-4 h-4 text-slate-500" />
@@ -150,7 +152,7 @@ export default function RequestsView({
                   <button
                     onClick={() => {
                       setDropdownOpen(false);
-                      alert('Abrindo formulário de chamado técnico para suporte de T.I.');
+                      toast('Em desenvolvimento: Abrindo formulário de chamado técnico para suporte de T.I.', { icon: '🚧' });
                     }}
                     className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-50 text-slate-700 text-xs font-semibold transition-colors text-left"
                   >
@@ -160,7 +162,7 @@ export default function RequestsView({
                   <button
                     onClick={() => {
                       setDropdownOpen(false);
-                      alert('Abrindo requisição de hardware e periféricos.');
+                      toast('Em desenvolvimento: Abrindo requisição de hardware e periféricos.', { icon: '🚧' });
                     }}
                     className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-50 text-slate-700 text-xs font-semibold transition-colors text-left"
                   >
@@ -170,7 +172,7 @@ export default function RequestsView({
                   <button
                     onClick={() => {
                       setDropdownOpen(false);
-                      alert('Abrindo portal de DP para agendamento de férias.');
+                      toast('Em desenvolvimento: Abrindo portal de DP para agendamento de férias.', { icon: '🚧' });
                     }}
                     className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-50 text-slate-700 text-xs font-semibold transition-colors text-left"
                   >
@@ -217,7 +219,7 @@ export default function RequestsView({
 
           {/* 2. Equipamentos */}
           <div
-            onClick={() => alert('Acesso ao catálogo de periféricos e substituição de hardware.')}
+            onClick={() => toast('Em desenvolvimento: Acesso ao catálogo de periféricos e substituição de hardware.', { icon: '🚧' })}
             className="rounded-2xl bg-white border border-slate-200/80 p-5 flex flex-col justify-between shadow-xs hover:shadow-md hover:border-blue-200 transition-all cursor-pointer group"
           >
             <div>
@@ -244,7 +246,7 @@ export default function RequestsView({
 
           {/* 3. Materiais & Gráfica */}
           <div
-            onClick={() => alert('Requisição de crachás, cadernos, papelaria e brindes institucionais.')}
+            onClick={() => toast('Em desenvolvimento: Requisição de crachás, cadernos, papelaria e brindes institucionais.', { icon: '🚧' })}
             className="rounded-2xl bg-white border border-slate-200/80 p-5 flex flex-col justify-between shadow-xs hover:shadow-md hover:border-blue-200 transition-all cursor-pointer group"
           >
             <div>
@@ -271,7 +273,7 @@ export default function RequestsView({
 
           {/* 4. Férias & Ausências */}
           <div
-            onClick={() => alert('Agendamento de férias integrado com o departamento pessoal.')}
+            onClick={() => toast('Em desenvolvimento: Agendamento de férias integrado com o departamento pessoal.', { icon: '🚧' })}
             className="rounded-2xl bg-white border border-slate-200/80 p-5 flex flex-col justify-between shadow-xs hover:shadow-md hover:border-blue-200 transition-all cursor-pointer group"
           >
             <div>
@@ -298,7 +300,7 @@ export default function RequestsView({
 
           {/* 5. Suporte T.I. */}
           <div
-            onClick={() => alert('Abertura de ticket técnico 24/7 com a equipe de infraestrutura.')}
+            onClick={() => toast('Em desenvolvimento: Abertura de ticket técnico 24/7 com a equipe de infraestrutura.', { icon: '🚧' })}
             className="rounded-2xl bg-white border border-slate-200/80 p-5 flex flex-col justify-between shadow-xs hover:shadow-md hover:border-blue-200 transition-all cursor-pointer group"
           >
             <div>
@@ -422,7 +424,7 @@ export default function RequestsView({
                 <div className="flex items-center gap-2 text-xs text-slate-400">
                   <span>Atualizado há 3 minutos</span>
                   <button
-                    onClick={() => alert('Lista sincronizada com o banco de dados Genesis.')}
+                    onClick={() => toast('Em desenvolvimento: Lista sincronizada com o banco de dados Genesis.', { icon: '🚧' })}
                     className="p-1 rounded-lg hover:text-blue-600 hover:bg-slate-50"
                   >
                     <RotateCw className="w-3.5 h-3.5" />
@@ -732,7 +734,7 @@ export default function RequestsView({
                   Chamados abertos após 18h serão distribuídos no início do expediente seguinte.
                 </p>
                 <button
-                  onClick={() => alert('Termo de SLA: Prazos regulamentados pelo compliance corporativo.')}
+                  onClick={() => toast('Em desenvolvimento: Termo de SLA: Prazos regulamentados pelo compliance corporativo.', { icon: '🚧' })}
                   className="text-blue-600 font-semibold hover:underline mt-1.5 text-left"
                 >
                   Ler termo de SLA →

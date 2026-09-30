@@ -13,6 +13,7 @@ import { useAppState } from '@/hooks/use-app-state';
 import { INITIAL_EMPLOYEES } from '@/lib/data';
 import { CheckCircle2 } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
+import { useRequests } from '@/hooks/use-requests';
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   const {
@@ -30,6 +31,9 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
   const router = useRouter();
   const pathname = usePathname();
   const currentTab = pathname.split('/')[1] || 'inicio';
+
+  const { requests } = useRequests();
+  const openCount = requests.filter(req => req.status !== 'concluida' && req.status !== 'aprovada').length;
 
   const handleStartCall = (emp: any) => {
     setCallingEmployee(emp);
@@ -58,7 +62,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           router.push(`/${tab}`);
           setMobileMenuOpen(false);
         }}
-        openCount={12}
+        openCount={openCount}
         mobileOpen={mobileMenuOpen}
         onCloseMobile={() => setMobileMenuOpen(false)}
         onOpenHelp={() => setChatBotOpen(true)}

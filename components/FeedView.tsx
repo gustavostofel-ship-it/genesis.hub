@@ -38,6 +38,8 @@ import {
 } from 'lucide-react';
 import { USER_AVATAR_URL } from './Header';
 import { useFeed } from '@/hooks/use-feed';
+import toast from 'react-hot-toast';
+
 
 interface FeedViewProps {
   onOpenMarketingForm: () => void;
@@ -194,7 +196,7 @@ export default function FeedView({
               248 colaboradores ativos agora
             </span>
             <button
-              onClick={() => alert('Filtros e personalização do feed corporativo.')}
+              onClick={() => toast('Em desenvolvimento: Filtros e personalização do feed corporativo.', { icon: '🚧' })}
               className="h-9 px-3.5 rounded-xl bg-white text-slate-700 font-semibold text-xs border border-slate-200 shadow-xs hover:bg-slate-50 transition-all flex items-center gap-2"
             >
               <SlidersHorizontal className="w-3.5 h-3.5 text-slate-400" />
@@ -395,7 +397,7 @@ export default function FeedView({
                   <div className="flex flex-wrap items-center justify-between pt-3 gap-2">
                     <div className="flex items-center flex-wrap gap-1.5">
                       <button
-                        onClick={() => alert('Selecione uma imagem para anexar à publicação.')}
+                        onClick={() => toast('Em desenvolvimento: Selecione uma imagem para anexar à publicação.', { icon: '🚧' })}
                         type="button"
                         className="px-2.5 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200/80 text-slate-600 text-xs font-medium flex items-center gap-1.5 transition-colors"
                       >
@@ -403,7 +405,7 @@ export default function FeedView({
                         <span>Foto</span>
                       </button>
                       <button
-                        onClick={() => alert('Anexar link de vídeo corporativo.')}
+                        onClick={() => toast('Em desenvolvimento: Anexar link de vídeo corporativo.', { icon: '🚧' })}
                         type="button"
                         className="px-2.5 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200/80 text-slate-600 text-xs font-medium flex items-center gap-1.5 transition-colors"
                       >
@@ -411,7 +413,7 @@ export default function FeedView({
                         <span>Vídeo institucional</span>
                       </button>
                       <button
-                        onClick={() => alert('Anexar certificado profissional verificado.')}
+                        onClick={() => toast('Em desenvolvimento: Anexar certificado profissional verificado.', { icon: '🚧' })}
                         type="button"
                         className="px-2.5 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200/80 text-slate-600 text-xs font-medium flex items-center gap-1.5 transition-colors"
                       >
@@ -419,7 +421,7 @@ export default function FeedView({
                         <span>Certificado</span>
                       </button>
                       <button
-                        onClick={() => alert('Criar nova enquete interna com opções de voto.')}
+                        onClick={() => toast('Em desenvolvimento: Criar nova enquete interna com opções de voto.', { icon: '🚧' })}
                         type="button"
                         className="px-2.5 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200/80 text-slate-600 text-xs font-medium flex items-center gap-1.5 transition-colors"
                       >
@@ -610,7 +612,7 @@ export default function FeedView({
 
                       <button
                         onClick={() =>
-                          alert(`Credencial ${post.certificate?.credentialId} verificada com sucesso via AWS Certification Portal.`)
+                          toast(`Em desenvolvimento: Credencial ${post.certificate?.credentialId} verificada com sucesso via AWS Certification Portal.`, { icon: '🚧' })
                         }
                         className="px-3.5 py-2 rounded-xl bg-white text-blue-700 font-semibold text-xs border border-slate-200 shadow-xs hover:bg-blue-50 transition-all flex items-center gap-1.5 shrink-0"
                       >
@@ -708,7 +710,7 @@ export default function FeedView({
                     </button>
 
                     <button
-                      onClick={() => alert(`Comentários para a postagem de ${post.author.name}`)}
+                      onClick={() => toast(`Em desenvolvimento: Comentários para a postagem de ${post.author.name}`, { icon: '🚧' })}
                       className="flex items-center gap-1.5 py-1 px-3 rounded-lg hover:bg-slate-100 transition-colors"
                     >
                       <MessageSquare className="w-4 h-4" />
@@ -716,7 +718,7 @@ export default function FeedView({
                     </button>
 
                     <button
-                      onClick={() => alert('Link da publicação copiado para a área de transferência.')}
+                      onClick={() => toast('Em desenvolvimento: Link da publicação copiado para a área de transferência.', { icon: '🚧' })}
                       className="flex items-center gap-1.5 py-1 px-3 rounded-lg hover:bg-slate-100 transition-colors"
                     >
                       <Share2 className="w-4 h-4" />
@@ -810,7 +812,7 @@ export default function FeedView({
               </div>
 
               <button
-                onClick={() => alert('7 colaboradores fazem aniversário neste mês no Genesis Hub!')}
+                onClick={() => toast('Em desenvolvimento: 7 colaboradores fazem aniversário neste mês no Genesis Hub!', { icon: '🚧' })}
                 className="w-full mt-3 py-2 rounded-xl bg-slate-50 hover:bg-slate-100 text-blue-600 font-semibold text-xs transition-colors flex items-center justify-center gap-1"
               >
                 <span>Ver todos aniversariantes (7)</span>
@@ -949,7 +951,7 @@ export default function FeedView({
                 </button>
 
                 <button
-                  onClick={() => alert('Abrindo portal corporativo de holerites e férias.')}
+                  onClick={() => toast('Em desenvolvimento: Abrindo portal corporativo de holerites e férias.', { icon: '🚧' })}
                   className="p-3 rounded-xl bg-slate-50 hover:bg-blue-50 text-left transition-colors flex flex-col gap-2 group"
                 >
                   <div className="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center group-hover:scale-105 transition-transform">
