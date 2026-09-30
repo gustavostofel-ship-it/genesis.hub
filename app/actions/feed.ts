@@ -21,7 +21,7 @@ export async function createFeedPost(data: { content: string }) {
   // Validação Zod
   const parsed = createPostSchema.safeParse(data);
   if (!parsed.success) {
-    throw new Error(parsed.error.errors[0].message);
+    throw new Error(String(parsed.error));
   }
 
   await new Promise((resolve) => setTimeout(resolve, 800));

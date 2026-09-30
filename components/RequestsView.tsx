@@ -28,7 +28,6 @@ import {
   ChevronRight,
   ArrowRight,
   ShieldAlert,
-  ShieldAlert,
   RefreshCw,
 } from 'lucide-react';
 import { RequestItem } from '@/lib/data';
@@ -45,7 +44,6 @@ interface RequestsViewProps {
 export default function RequestsView({
   onOpenMarketingForm,
   onSelectRequest,
-  onOpenBotChat,
   onOpenBotChat,
 }: RequestsViewProps) {
   const { requests, isLoading, isError, refetch } = useRequests();

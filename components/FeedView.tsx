@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import {
-import {
   Sparkles,
   ChevronLeft,
   ChevronRight,
@@ -126,53 +125,15 @@ export default function FeedView({
   };
 
   const handleToggleCongrats = (postId: string) => {
-    setPosts(
-      posts.map((p) => {
-        if (p.id === postId) {
-          const nextCongrats = !p.congratulated;
-          return {
-            ...p,
-            congratulated: nextCongrats,
-            congratsCount: (p.congratsCount || 0) + (nextCongrats ? 1 : -1),
-          };
-        }
-        return p;
-      })
-    );
+    toast('Em desenvolvimento: Enviar parabéns.', { icon: '🚧' });
   };
 
   const handleSendWish = (postId: string) => {
-    setPosts(
-      posts.map((p) => {
-        if (p.id === postId && p.birthday) {
-          return {
-            ...p,
-            birthday: {
-              ...p.birthday,
-              wishesCount: p.birthday.wishesCount + 1,
-            },
-          };
-        }
-        return p;
-      })
-    );
+    toast('Em desenvolvimento: Enviar felicitação de aniversário.', { icon: '🚧' });
   };
 
   const handleSendWelcome = (postId: string) => {
-    setPosts(
-      posts.map((p) => {
-        if (p.id === postId && p.welcome) {
-          return {
-            ...p,
-            welcome: {
-              ...p.welcome,
-              welcomesCount: p.welcome.welcomesCount + 1,
-            },
-          };
-        }
-        return p;
-      })
-    );
+    toast('Em desenvolvimento: Enviar mensagem de boas-vindas.', { icon: '🚧' });
   };
 
   return (

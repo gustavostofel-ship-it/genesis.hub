@@ -21,7 +21,6 @@ import {
   UserCheck,
   Check,
   SortAsc,
-  SortAsc,
   RefreshCw,
 } from 'lucide-react';
 import { Employee } from '@/lib/data';

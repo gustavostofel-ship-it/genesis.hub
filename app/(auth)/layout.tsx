@@ -25,7 +25,8 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
     brandManualOpen, setBrandManualOpen,
     videoModal, setVideoModal,
     toastMessage, showToast,
-    isSidebarCollapsed
+    isSidebarCollapsed,
+    chatBotOpen, setChatBotOpen
   } = useAppState();
 
   const router = useRouter();
