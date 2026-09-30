@@ -69,9 +69,9 @@ export async function markNotificationAsRead(id: string): Promise<void> {
       return;
     }
 
-    const { error } = await supabase
+    const { error } = await (supabase as any)
       .from('notifications')
-      .update({ is_read: true } as any)
+      .update({ is_read: true })
       .eq('id', id);
 
     if (error) throw error;
