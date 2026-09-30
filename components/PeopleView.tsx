@@ -57,7 +57,7 @@ export default function PeopleView({
 
   const filteredEmployees = useMemo(() => {
     return employees
-      .filter((emp) => {
+      .filter((emp: Employee) => {
         // Department filter
         if (selectedDept !== 'all' && emp.department !== selectedDept) return false;
 
@@ -76,7 +76,7 @@ export default function PeopleView({
           const matchRole = emp.role.toLowerCase().includes(q);
           const matchDept = emp.departmentLabel.toLowerCase().includes(q);
           const matchRamal = emp.ramal.toLowerCase().includes(q);
-          const matchSkills = emp.skills.some((s) => s.toLowerCase().includes(q));
+          const matchSkills = emp.skills.some((s: string) => s.toLowerCase().includes(q));
           if (!matchName && !matchRole && !matchDept && !matchRamal && !matchSkills) {
             return false;
           }
@@ -84,10 +84,10 @@ export default function PeopleView({
 
         return true;
       })
-      .sort((a, b) => {
+      .sort((a: Employee, b: Employee) => {
         if (sortBy === 'name_asc') return a.name.localeCompare(b.name);
         if (sortBy === 'status') {
-          const order = { online: 0, reuniao: 1, ausente: 2 };
+          const order: Record<string, number> = { online: 0, reuniao: 1, ausente: 2 };
           return order[a.status] - order[b.status];
         }
         if (sortBy === 'ramal') return a.ramal.localeCompare(b.ramal);
@@ -316,7 +316,7 @@ export default function PeopleView({
           </div>
         ) : !isLoading && !isError && viewMode === 'grid' ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredEmployees.map((emp) => {
+            {filteredEmployees.map((emp: Employee) => {
               const isOnline = emp.status === 'online';
               const isMeeting = emp.status === 'reuniao';
 
@@ -436,7 +436,7 @@ export default function PeopleView({
                         Competências Chave
                       </span>
                       <div className="flex flex-wrap gap-1">
-                        {emp.skills.map((skill) => (
+                        {emp.skills.map((skill: string) => (
                           <span
                             key={skill}
                             className="px-2 py-0.5 rounded-md text-[11px] font-medium bg-slate-100 text-slate-700"
@@ -483,7 +483,7 @@ export default function PeopleView({
           /* List Mode */
           <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
             <div className="divide-y divide-slate-100">
-              {filteredEmployees.map((emp) => (
+              {filteredEmployees.map((emp: Employee) => (
                 <div
                   key={emp.id}
                   className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-slate-50 transition-colors"

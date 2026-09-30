@@ -13,24 +13,7 @@ export interface NotificationItem {
 }
 
 // Mocks if DB is not connected yet
-let MOCK_NOTIFICATIONS: NotificationItem[] = [
-  {
-    id: 'notif-1',
-    title: 'Aprovação Pendente',
-    message: 'Sua solicitação #MKT-4100 precisa de revisão.',
-    type: 'marketing',
-    is_read: false,
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: 'notif-2',
-    title: 'Atualização do Sistema',
-    message: 'Nova política de férias publicada no RH.',
-    type: 'system',
-    is_read: false,
-    created_at: new Date(Date.now() - 3600000).toISOString(),
-  },
-];
+let MOCK_NOTIFICATIONS: NotificationItem[] = [];
 
 export async function getNotifications(): Promise<NotificationItem[]> {
   try {

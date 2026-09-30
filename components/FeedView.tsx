@@ -58,54 +58,7 @@ export default function FeedView({
   const [carouselIndex, setCarouselIndex] = useState(0);
   const [composerExpanded, setComposerExpanded] = useState(false);
 
-  const carouselItems = [
-    {
-      type: 'video',
-      title: 'Tour pelo nosso novo escritório em São Paulo (Vila Olímpia)',
-      category: 'Vídeo Institucional',
-      tag: 'Destaque',
-      tagColor: 'bg-blue-600 text-white',
-      meta: '1.4k visualizações',
-      duration: '3:14',
-      image:
-        'https://lh3.googleusercontent.com/aida-public/AB6AXuCELrWsoSKaDq4c6jgqPK0QedEuP2vkXhrl7O0O8swFBzRPgMpmwYGg-xr5Lv3qmgYTAcGs74KzISPxsNRiki0rABgqIXJdoO3sEIH5ljTiSEOCAPMXDdO-m6Ok6bHGbIz95uErvYKVoCvcSm_l8fBxwgmDiiFxneD5L8jB5Assk2oIqgCHdryToWNEaLEfRyh3o4MO5VnWVmAHGgU9jUw6sY6eFBnvmNRgji_BDnhJhb3-d-WJrq50',
-      actionText: 'Assistir →',
-      onAction: () =>
-        onPlayVideo(
-          'Tour pelo nosso novo escritório em São Paulo (Vila Olímpia)',
-          'https://lh3.googleusercontent.com/aida-public/AB6AXuCELrWsoSKaDq4c6jgqPK0QedEuP2vkXhrl7O0O8swFBzRPgMpmwYGg-xr5Lv3qmgYTAcGs74KzISPxsNRiki0rABgqIXJdoO3sEIH5ljTiSEOCAPMXDdO-m6Ok6bHGbIz95uErvYKVoCvcSm_l8fBxwgmDiiFxneD5L8jB5Assk2oIqgCHdryToWNEaLEfRyh3o4MO5VnWVmAHGgU9jUw6sY6eFBnvmNRgji_BDnhJhb3-d-WJrq50',
-          '03:14'
-        ),
-    },
-    {
-      type: 'news',
-      title: 'Parceria global fechada com gigante de infraestrutura de Nuvem',
-      category: 'Aliança Estratégica',
-      tag: 'Inovação',
-      tagColor: 'bg-blue-100 text-blue-900',
-      meta: 'Comunicado Oficial',
-      image:
-        'https://lh3.googleusercontent.com/aida-public/AB6AXuBUr1xUi3_S9p5P89WyPv1L8xzGudFq7YXsqSSOmMfcr0zwVGJLA6NcIBe8WPPUVGyudW0Se6y-w2eRdmsKcyF0CD-gyU3RQRipi0CeFsZFyfLjDNS6YC8VLPyUIPHwGGq-VCO8bDEaIuJLM7LsA_e5gGxGUafR-tQCQDytigJwuTYNO8FQQqXVM7A90aFLKTG6uPKgEhZ5KGwVWUQ8JnEh8Kbq0vx8gEQwiT_7qtwIos6lZZVrAdy2',
-      actionText: 'Ler nota →',
-      onAction: () =>
-        alert(
-          'Parceria confirmada com a AWS para acelerar soluções nativas de inteligência artificial e computação em nuvem na Genesis Hub.'
-        ),
-    },
-    {
-      type: 'stat',
-      title: 'Resultados e metas Q3 superadas: veja mensagem do CEO',
-      category: 'Relatório Executivo',
-      statNumber: '+128%',
-      statLabel: 'Superação de OKRs Globais Q3',
-      meta: 'Diretoria Executiva',
-      actionText: 'Acessar →',
-      onAction: () =>
-        alert(
-          'Parabéns a toda a equipe Genesis! Atingimos 128% do resultado planejado com destaque para as áreas de Operações e Tecnologia.'
-        ),
-    },
-  ];
+  const carouselItems: any[] = [];
 
   const handlePublish = () => {
     if (!composerText.trim() || isCreating) return;
@@ -152,10 +105,7 @@ export default function FeedView({
           </div>
 
           <div className="flex items-center gap-3 self-start md:self-auto">
-            <span className="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-800 flex items-center gap-2 shadow-xs">
-              <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
-              248 colaboradores ativos agora
-            </span>
+            {/* MOCK DE CONTADOR REMOVIDO PARA FASE 3 */}
             <button
               onClick={() => toast('Em desenvolvimento: Filtros e personalização do feed corporativo.', { icon: '🚧' })}
               className="h-9 px-3.5 rounded-xl bg-white text-slate-700 font-semibold text-xs border border-slate-200 shadow-xs hover:bg-slate-50 transition-all flex items-center gap-2"
@@ -199,133 +149,17 @@ export default function FeedView({
                 </div>
               </div>
 
-              {/* 3 Featured Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {/* Card 1: Video Tour SP */}
-                <div className="group relative rounded-2xl overflow-hidden bg-white border border-slate-200/80 shadow-xs hover:shadow-md transition-all flex flex-col">
-                  <div className="relative h-36 w-full overflow-hidden bg-slate-100">
-                    <Image
-                      src={carouselItems[0].image!}
-                      alt="Tour Escritório"
-                      fill
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      referrerPolicy="no-referrer"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
-                    <span className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-600 text-white">
-                      Destaque
-                    </span>
-                    <button
-                      onClick={carouselItems[0].onAction}
-                      className="absolute inset-0 flex items-center justify-center cursor-pointer"
-                    >
-                      <div className="w-10 h-10 rounded-full bg-white/95 text-blue-600 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                        <Play className="w-5 h-5 fill-current ml-0.5" />
-                      </div>
-                    </button>
-                    <span className="absolute bottom-2 right-2 px-1.5 py-0.5 rounded text-[10px] bg-black/80 text-white font-mono">
-                      3:14
-                    </span>
-                  </div>
-
-                  <div className="p-4 flex-1 flex flex-col justify-between">
-                    <div>
-                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
-                        Vídeo Institucional
-                      </span>
-                      <h3 className="font-bold text-xs sm:text-sm text-slate-900 line-clamp-2 mt-1 leading-snug">
-                        Tour pelo nosso novo escritório em São Paulo (Vila Olímpia)
-                      </h3>
-                    </div>
-                    <div className="flex items-center justify-between pt-3 mt-2 border-t border-slate-100 text-xs text-slate-400">
-                      <span>1.4k views</span>
-                      <button
-                        onClick={carouselItems[0].onAction}
-                        className="text-blue-600 font-semibold text-xs hover:underline flex items-center gap-0.5"
-                      >
-                        Assistir →
-                      </button>
-                    </div>
-                  </div>
+              {carouselItems.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {/* render carousel items here */}
                 </div>
-
-                {/* Card 2: Tech Partnership */}
-                <div className="group relative rounded-2xl overflow-hidden bg-white border border-slate-200/80 shadow-xs hover:shadow-md transition-all flex flex-col">
-                  <div className="relative h-36 w-full overflow-hidden bg-slate-100">
-                    <Image
-                      src={carouselItems[1].image!}
-                      alt="Parceria Nuvem"
-                      fill
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      referrerPolicy="no-referrer"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
-                    <span className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-900">
-                      Inovação
-                    </span>
-                  </div>
-
-                  <div className="p-4 flex-1 flex flex-col justify-between">
-                    <div>
-                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
-                        Aliança Estratégica
-                      </span>
-                      <h3 className="font-bold text-xs sm:text-sm text-slate-900 line-clamp-2 mt-1 leading-snug">
-                        Parceria global fechada com gigante de infraestrutura de Nuvem
-                      </h3>
-                    </div>
-                    <div className="flex items-center justify-between pt-3 mt-2 border-t border-slate-100 text-xs text-slate-400">
-                      <span>Comunicado Oficial</span>
-                      <button
-                        onClick={carouselItems[1].onAction}
-                        className="text-blue-600 font-semibold text-xs hover:underline flex items-center gap-0.5"
-                      >
-                        Ler nota →
-                      </button>
-                    </div>
-                  </div>
+              ) : (
+                <div className="bg-slate-50 border border-slate-200 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 mb-4">
+                  <Sparkles className="w-8 h-8 text-slate-300" />
+                  <span className="font-semibold text-slate-600">Nenhum destaque no momento.</span>
+                  <p className="text-xs text-slate-500 max-w-xs">Apenas usuários com papel Administrativo ou de Marketing podem cadastrar novos Destaques Corporativos.</p>
                 </div>
-
-                {/* Card 3: Q3 Targets OKRs */}
-                <div className="group relative rounded-2xl overflow-hidden bg-white border border-slate-200/80 shadow-xs hover:shadow-md transition-all flex flex-col">
-                  <div className="relative h-36 w-full overflow-hidden bg-gradient-to-br from-blue-700 to-indigo-900 p-4 flex flex-col justify-between text-white">
-                    <div className="flex items-center justify-between">
-                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-white/20 backdrop-blur-xs text-white">
-                        Metas Corporativas
-                      </span>
-                      <TrendingUp className="w-5 h-5 text-emerald-400" />
-                    </div>
-                    <div>
-                      <span className="text-3xl font-extrabold leading-none">+128%</span>
-                      <p className="text-[11px] text-blue-100 font-medium mt-1">
-                        Superação de OKRs Globais Q3
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="p-4 flex-1 flex flex-col justify-between">
-                    <div>
-                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
-                        Relatório Executivo
-                      </span>
-                      <h3 className="font-bold text-xs sm:text-sm text-slate-900 line-clamp-2 mt-1 leading-snug">
-                        Resultados e metas Q3 superadas: veja mensagem do CEO
-                      </h3>
-                    </div>
-                    <div className="flex items-center justify-between pt-3 mt-2 border-t border-slate-100 text-xs text-slate-400">
-                      <span>Diretoria Executiva</span>
-                      <button
-                        onClick={carouselItems[2].onAction}
-                        className="text-blue-600 font-semibold text-xs hover:underline flex items-center gap-0.5"
-                      >
-                        Acessar →
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              )}
             </div>
 
             {/* POST COMPOSER */}
@@ -706,69 +540,9 @@ export default function FeedView({
               </div>
 
               <div className="flex flex-col gap-2.5">
-                {/* Person 1 */}
-                <div className="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 transition-colors">
-                  <div className="flex items-center gap-3">
-                    <div className="relative w-9 h-9 rounded-full overflow-hidden">
-                      <Image
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBByDpPNqH89jGELjV-u3V2-C-144o-Go8afFLG0IebbyG4WS5P6KA5xm_kqnise81eHAYNW1c6CXUp-NgoGmkFtGWk8DiEXp5O2Hq3Z4ge-FI-dGOauofN04wA7sDGneFyLqwXZFrGL2tRnSysee7fBDPwsMe7PuQfKJcMQzJzsQx6qMCPuPQc-P6smh6aL9S2wLyJJdJdPFcNdobWSFWf_1KDfZ-honSkgKdDGNptTzzgP6Uy948q"
-                        alt="Lucas Silveira"
-                        fill
-                        sizes="36px"
-                        className="object-cover"
-                        referrerPolicy="no-referrer"
-                      />
-                    </div>
-                    <div className="flex flex-col text-xs">
-                      <span className="font-semibold text-slate-900">Lucas Silveira</span>
-                      <span className="text-slate-500">Engenharia de Dados</span>
-                    </div>
-                  </div>
-                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-pink-100 text-pink-700">
-                    Hoje!
-                  </span>
-                </div>
-
-                {/* Person 2 */}
-                <div className="flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-50 transition-colors">
-                  <div className="flex items-center gap-3">
-                    <div className="relative w-9 h-9 rounded-full overflow-hidden">
-                      <Image
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVS40c1pADpunoeRaGrK84LkiQWe2_zybrHYvkHipaghhB1a7MeuvmFrC1Y8gV3lUCnWpQVG4R9D7EJzsQNkO_AgCcP1MfZQ1q3tRcDwAN6c_wk8K6qcN3YbGEWs8a39dtaS_LkBVzFlz1xA8kMFwINV1-B5prXVXiVtXtZ3ludzcB4Iga8KUSvir7eL3Q-6zWQLun5q3yBNAR3fIt1esQv2MiskQekkIsPkPIUclRKczwmoY4GBZK"
-                        alt="Fernanda Castro"
-                        fill
-                        sizes="36px"
-                        className="object-cover"
-                        referrerPolicy="no-referrer"
-                      />
-                    </div>
-                    <div className="flex flex-col text-xs">
-                      <span className="font-semibold text-slate-900">Fernanda Castro</span>
-                      <span className="text-slate-500">Controladoria & Finanças</span>
-                    </div>
-                  </div>
-                  <span className="text-xs text-slate-400 font-medium">Amanhã</span>
-                </div>
-
-                {/* Person 3 */}
-                <div className="flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-50 transition-colors">
-                  <div className="flex items-center gap-3">
-                    <div className="relative w-9 h-9 rounded-full overflow-hidden">
-                      <Image
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAi5dreQzgF76HiFvPecOO7XriG5p6Rb22fyPXOkPxpKOVuJER60Y7S8bEXy8sbPb2oJKZ95ABwaqUaFsa1ocS9oMftGD8D0oGWPVNHIvltz4LN2U37YtlfTzLlzKAlujE4YQvQVCIoSNjVC_l15bf8KW1GZX1UVzYnVBGPE25Q1QSBomj-t49rbtOSauNW5PcZkp4en3gmXd5476bTHaDFV-F0w-3iagSAxXVfv8EhrJyyQsisJZd0"
-                        alt="Bruno Mendonça"
-                        fill
-                        sizes="36px"
-                        className="object-cover"
-                        referrerPolicy="no-referrer"
-                      />
-                    </div>
-                    <div className="flex flex-col text-xs">
-                      <span className="font-semibold text-slate-900">Bruno Mendonça</span>
-                      <span className="text-slate-500">Customer Success</span>
-                    </div>
-                  </div>
-                  <span className="text-xs text-slate-400 font-medium">Quinta-feira</span>
+                <div className="py-8 text-center text-slate-500 text-xs flex flex-col items-center gap-2">
+                  <Cake className="w-6 h-6 text-slate-300" />
+                  <span>Nenhum aniversariante nesta semana.</span>
                 </div>
               </div>
 
@@ -928,53 +702,36 @@ export default function FeedView({
               </div>
             </div>
 
-            {/* Widget 4: Eventos & Agenda */}
+            {/* Widget 2: Novos Colaboradores */}
+            <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex flex-col">
+              <div className="flex items-center justify-between pb-3 mb-2 border-b border-slate-100">
+                <div className="flex items-center gap-2">
+                  <UserPlus className="w-5 h-5 text-blue-600" />
+                  <h2 className="font-bold text-sm text-slate-900">Novos Colaboradores</h2>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-2.5">
+                <div className="py-8 text-center text-slate-500 text-xs flex flex-col items-center gap-2">
+                  <UserPlus className="w-6 h-6 text-slate-300" />
+                  <span>Nenhum novo colaborador neste mês.</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Widget 3: Eventos & Agenda */}
             <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex flex-col">
               <div className="flex items-center justify-between pb-3 mb-2 border-b border-slate-100">
                 <div className="flex items-center gap-2">
                   <Calendar className="w-5 h-5 text-blue-600" />
                   <h2 className="font-bold text-sm text-slate-900">Eventos & Agenda</h2>
                 </div>
-                <span className="text-xs text-blue-600 font-semibold cursor-pointer hover:underline">
-                  Ver mês
-                </span>
               </div>
 
               <div className="flex flex-col gap-3">
-                <div className="p-3 rounded-xl bg-slate-50 flex items-start gap-3">
-                  <div className="w-11 h-11 rounded-xl bg-blue-600 text-white flex flex-col items-center justify-center shrink-0 leading-tight">
-                    <span className="font-bold text-sm">13</span>
-                    <span className="text-[9px] uppercase font-bold">Sex</span>
-                  </div>
-                  <div className="flex-1 flex flex-col text-xs">
-                    <div className="flex items-center justify-between">
-                      <span className="font-bold text-slate-900">All Hands Genesis Q3/Q4</span>
-                      <span className="px-1.5 py-0.2 rounded font-bold text-[10px] bg-blue-100 text-blue-800">
-                        16:00
-                      </span>
-                    </div>
-                    <span className="text-slate-500 text-[11px] mt-0.5">Auditório Principal + Teams</span>
-                    <span className="text-[10px] font-semibold text-emerald-700 mt-1 flex items-center gap-1">
-                      <VideoIcon className="w-3 h-3" /> Link ao vivo disponível
-                    </span>
-                  </div>
-                </div>
-
-                <div className="p-3 rounded-xl hover:bg-slate-50 transition-colors flex items-start gap-3">
-                  <div className="w-11 h-11 rounded-xl bg-slate-200 text-slate-700 flex flex-col items-center justify-center shrink-0 leading-tight">
-                    <span className="font-bold text-sm">17</span>
-                    <span className="text-[9px] uppercase font-bold">Ter</span>
-                  </div>
-                  <div className="flex-1 flex flex-col text-xs">
-                    <div className="flex items-center justify-between">
-                      <span className="font-bold text-slate-900">Workshop Design System</span>
-                      <span className="px-1.5 py-0.2 rounded font-bold text-[10px] bg-slate-100 text-slate-700">
-                        10:00
-                      </span>
-                    </div>
-                    <span className="text-slate-500 text-[11px] mt-0.5">Sala de Inovação 02</span>
-                    <span className="text-[10px] text-blue-600 font-semibold mt-1">28 inscritos</span>
-                  </div>
+                <div className="py-8 text-center text-slate-500 text-xs flex flex-col items-center gap-2">
+                  <Calendar className="w-6 h-6 text-slate-300" />
+                  <span>Nenhum evento agendado.</span>
                 </div>
               </div>
             </div>

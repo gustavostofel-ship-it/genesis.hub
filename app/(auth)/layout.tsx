@@ -10,10 +10,10 @@ import BrandManualModal from '@/components/modals/BrandManualModal';
 import VideoPlayerModal from '@/components/modals/VideoPlayerModal';
 import ChatBotModal from '@/components/modals/ChatBotModal';
 import { useAppState } from '@/hooks/use-app-state';
-import { INITIAL_EMPLOYEES } from '@/lib/data';
 import { CheckCircle2 } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useRequests } from '@/hooks/use-requests';
+import { Employee } from '@/lib/data';
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   const {
@@ -40,7 +40,20 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
     setCallingEmployee(emp);
   };
 
-  const marianaEmployee = INITIAL_EMPLOYEES[0];
+  const loggedUser: Employee = {
+    id: 'user-0',
+    name: 'Sistema',
+    role: 'Admin',
+    department: 'marketing',
+    departmentLabel: 'Marketing',
+    location: 'Presencial',
+    locationType: 'presencial',
+    ramal: '0000',
+    email: 'admin@genesis',
+    avatar: '',
+    status: 'online',
+    skills: []
+  };
 
   return (
     <div className="min-h-screen bg-[#f8f9ff] text-[#0b1c30]">
@@ -75,7 +88,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
           onOpenQuickApp={(appName) => showToast(`Abrindo ${appName}...`)}
-          onViewMyProfile={() => setSelectedEmployee(marianaEmployee)}
+          onViewMyProfile={() => setSelectedEmployee(loggedUser as any)}
         />
 
         <main className="flex-1 w-full pt-16">

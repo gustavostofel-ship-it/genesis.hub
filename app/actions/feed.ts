@@ -1,65 +1,117 @@
 'use server';
 
-import { FeedPost, INITIAL_FEED_POSTS } from '@/lib/data';
+import { FeedPost } from '@/lib/data';
 import { z } from 'zod';
+import { createClient } from '@/lib/supabase/server';
 
-// Esquema de validação com Zod
 const createPostSchema = z.object({
   content: z.string().min(10, 'A mensagem deve ter pelo menos 10 caracteres'),
 });
 
-// Simulando um banco de dados em memória para a Fase 1
-let MOCK_DB = [...INITIAL_FEED_POSTS];
-
 export async function getFeedPosts(): Promise<FeedPost[]> {
-  // Simular latência de rede
-  await new Promise((resolve) => setTimeout(resolve, 800));
-  return MOCK_DB;
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('posts')
+    .select(`
+      id,
+      content,
+      created_at,
+      type,
+      image_url,
+      video_url,
+      title,
+      author:author_id (
+        id,
+        first_name,
+        last_name,
+        avatar_url,
+        role_title,
+        department:department_id (name)
+      ),
+      reactions:post_reactions (reaction_type, user_id),
+      comments:comments (id)
+    `)
+    .order('created_at', { ascending: false });
+
+  if (error || !data) return [];
+
+  const { data: userAuth } = await supabase.auth.getUser();
+  const uid = userAuth?.user?.id;
+
+  return data.map((post: any) => {
+    const authorName = post.author ? `${post.author.first_name} ${post.author.last_name}` : 'Sistema Genesis';
+    const departmentName = post.author?.department?.name || 'Comunicação Interna';
+    
+    // Check reactions
+    const likes = post.reactions ? post.reactions.filter((r: any) => r.reaction_type === 'like') : [];
+    const myLike = uid ? likes.some((r: any) => r.user_id === uid) : false;
+
+    return {
+      id: post.id,
+      author: {
+        name: authorName,
+        role: post.author?.role_title || '',
+        avatar: post.author?.avatar_url || '',
+      },
+      timeAgo: new Date(post.created_at).toLocaleDateString('pt-BR'),
+      subtitle: departmentName,
+      content: post.content,
+      likesCount: likes.length,
+      commentsCount: post.comments ? post.comments.length : 0,
+      sharesCount: 0,
+      liked: myLike,
+    };
+  });
 }
 
 export async function createFeedPost(data: { content: string }) {
-  // Validação Zod
   const parsed = createPostSchema.safeParse(data);
   if (!parsed.success) {
     throw new Error(String(parsed.error));
   }
 
-  await new Promise((resolve) => setTimeout(resolve, 800));
+  const supabase = await createClient();
+  const { data: userAuth } = await supabase.auth.getUser();
+  if (!userAuth?.user) throw new Error("Unauthorized");
 
-  const newPost: FeedPost = {
-    id: `post-${Date.now()}`,
-    author: {
-      name: 'Mariana Alencar', // Mock user
-      role: 'Coord. Branding',
-      avatar: 'https://lh3.googleusercontent.com/aida/AEtjO1WNA9nH2zY9EotrNixsrRtNBhwi_E0dlvwDGcws0lFFXOAQFQZKLtjtz9XXWZhaA-rVX6fZJHZ0VxnO_B5TkkiZLiIELSMYMIGJ54TQvvaFwsPe_qK4zBmn7JMYYIj4f08AC-H_gdPgFd7omdHlMU9dxdf1DakS-gBzCCyzbVjig8HmyDGwmoWe2V5pMycdWFUWN_tR326ylET4GD-g4cOE276CduGrLzsMkiuBW02AFka7arfrqlzKIvs',
-    },
-    timeAgo: 'Agora mesmo',
-    subtitle: 'Marketing Corp. • São Paulo (Sede)',
-    content: parsed.data.content,
-    likesCount: 0,
-    commentsCount: 0,
-    sharesCount: 0,
-    liked: false,
-  };
+  const { data: newPost, error } = await (supabase as any)
+    .from('posts')
+    .insert({
+      author_id: userAuth.user.id,
+      content: parsed.data.content,
+      type: 'conquista',
+    })
+    .select('*')
+    .single();
 
-  MOCK_DB = [newPost, ...MOCK_DB];
+  if (error) throw error;
   return newPost;
 }
 
 export async function toggleLikePost(postId: string) {
-  await new Promise((resolve) => setTimeout(resolve, 300));
+  const supabase = await createClient();
+  const { data: userAuth } = await supabase.auth.getUser();
+  if (!userAuth?.user) throw new Error("Unauthorized");
   
-  MOCK_DB = MOCK_DB.map((p) => {
-    if (p.id === postId) {
-      const nextLiked = !p.liked;
-      return {
-        ...p,
-        liked: nextLiked,
-        likesCount: nextLiked ? p.likesCount + 1 : p.likesCount - 1,
-      };
-    }
-    return p;
-  });
+  const uid = userAuth.user.id;
+  
+  const { data: existing }: { data: any } = await supabase
+    .from('post_reactions')
+    .select('id')
+    .eq('post_id', postId)
+    .eq('user_id', uid)
+    .eq('reaction_type', 'like')
+    .single();
+    
+  if (existing) {
+    await supabase.from('post_reactions').delete().eq('id', existing.id);
+  } else {
+    await (supabase as any).from('post_reactions').insert({
+      post_id: postId,
+      user_id: uid,
+      reaction_type: 'like'
+    });
+  }
   
   return { success: true };
 }
