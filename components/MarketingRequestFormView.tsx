@@ -21,8 +21,10 @@ import {
   ExternalLink,
   Layers,
   FileCheck,
+  Loader2,
 } from 'lucide-react';
 import { RequestItem } from '@/lib/data';
+import { useRequests } from '@/hooks/use-requests';
 
 interface MarketingRequestFormViewProps {
   onBackToRequests: () => void;
@@ -63,7 +65,7 @@ export default function MarketingRequestFormView({
     },
   ]);
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { createRequest, isCreating: isSubmitting } = useRequests();
   const [draftSaved, setDraftSaved] = useState(false);
 
   const handleRemoveAttachment = (id: string) => {
@@ -92,41 +94,27 @@ export default function MarketingRequestFormView({
     setTimeout(() => setDraftSaved(false), 3000);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim() || !description.trim()) {
       alert('Por favor, preencha os campos obrigatórios do briefing.');
       return;
     }
 
-    setIsSubmitting(true);
-
-    setTimeout(() => {
-      const newProtocol = `#MKT-${Math.floor(4100 + Math.random() * 800)}`;
-      const newRequest: RequestItem = {
-        id: `req-${Date.now()}`,
-        protocol: newProtocol,
-        category: 'Marketing',
-        categoryIcon: 'campaign',
+    try {
+      const newRequest = await createRequest({
         title: title.trim(),
-        subtitle: `Arte para ${demandType} • ${audience}`,
-        assignee: {
-          name: 'Mariana A.',
-          role: 'Coord. Branding',
-          avatar:
-            'https://lh3.googleusercontent.com/aida-public/AB6AXuDUn7ic5aLwkiDvTVpXFn4InloJFwQ_ka3WdIYRr5Xr_D9fuT_cPKFjSCJFZFaBwd0nZgwjgXcCkTozFc-ZIGfuaBAIG894SAqPiE_WaDfCwEnoZZT4x2IIt_Iy9-q40Vh0uTxRNeeIovArUrt1uvYRCTyYxm80Cd0Hu2wNrrlgc11Vlz8sNnfbOp36b3fKbWMwn0MaryFYONRcC8xIWtFqwkQ8L-29ybIiqUfxOPYny4wQO9EOyazB',
-        },
-        createdAt: 'Hoje, agora',
-        dueDate: deadline || 'Em 5 dias úteis',
-        status: 'analise',
-        priority: priority,
-        description: description,
-        attachments: attachments.map((a) => ({ name: a.name, size: a.size })),
-      };
-
-      setIsSubmitting(false);
+        demandType,
+        description,
+        audience,
+        deadline,
+        priority
+      });
+      
       onSubmitSuccess(newRequest);
-    }, 800);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -559,7 +547,7 @@ export default function MarketingRequestFormView({
                     disabled={isSubmitting}
                     className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-semibold text-xs shadow-md transition-all"
                   >
-                    <Send className="w-4 h-4" />
+                    {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                     <span>{isSubmitting ? 'Enviando...' : 'Enviar solicitação ao Marketing'}</span>
                   </button>
                 </div>

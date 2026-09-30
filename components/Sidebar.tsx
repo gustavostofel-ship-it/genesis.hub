@@ -11,7 +11,10 @@ import {
   Settings,
   HelpCircle,
   X,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
+import { useAppState } from '@/hooks/use-app-state';
 
 export type NavTab = 'inicio' | 'pessoas' | 'solicitacoes' | 'documentos' | 'marketing-hub' | 'nova-solicitacao-marketing' | 'configuracoes';
 
@@ -52,6 +55,8 @@ export default function Sidebar({
     { id: 'configuracoes' as NavTab, label: 'Configurações', icon: Settings },
   ];
 
+  const { isSidebarCollapsed, setSidebarCollapsed } = useAppState();
+
   return (
     <>
       {/* Mobile Backdrop */}
@@ -63,9 +68,9 @@ export default function Sidebar({
       )}
 
       <aside
-        className={`fixed left-0 top-0 h-screen w-64 bg-[#213145] text-slate-100 z-50 flex flex-col justify-between shadow-xl transition-transform duration-300 lg:translate-x-0 ${
-          mobileOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
+        className={`fixed left-0 top-0 h-screen bg-[#213145] text-slate-100 z-50 flex flex-col justify-between shadow-xl transition-all duration-300 lg:translate-x-0 ${
+          mobileOpen ? 'translate-x-0 w-64' : '-translate-x-full lg:translate-x-0'
+        } ${isSidebarCollapsed ? 'lg:w-20' : 'lg:w-64'}`}
       >
         <div className="flex flex-col">
           {/* Logo Brand Header */}
@@ -84,14 +89,16 @@ export default function Sidebar({
                   referrerPolicy="no-referrer"
                 />
               </div>
-              <div className="flex flex-col">
-                <span className="font-bold text-[18px] text-white tracking-tight leading-none">
-                  Genesis Hub
-                </span>
-                <span className="text-[10px] text-blue-300 uppercase tracking-wider font-semibold mt-0.5">
-                  Intranet
-                </span>
-              </div>
+              {!isSidebarCollapsed && (
+                <div className="flex flex-col animate-in fade-in duration-300">
+                  <span className="font-bold text-[18px] text-white tracking-tight leading-none">
+                    Genesis Hub
+                  </span>
+                  <span className="text-[10px] text-blue-300 uppercase tracking-wider font-semibold mt-0.5">
+                    Intranet
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* Mobile close button */}
@@ -105,10 +112,18 @@ export default function Sidebar({
           </div>
 
           {/* Navigation Section */}
-          <div className="px-3 pt-6">
-            <span className="px-3 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
-              Navegação Corporativa
-            </span>
+          <div className="px-3 pt-6 relative">
+            <button
+              onClick={() => setSidebarCollapsed(!isSidebarCollapsed)}
+              className="hidden lg:flex absolute -right-3 top-6 bg-[#1b293a] border border-slate-700 w-6 h-6 rounded-full items-center justify-center text-slate-400 hover:text-white transition-colors z-10"
+            >
+              {isSidebarCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
+            </button>
+            {!isSidebarCollapsed && (
+              <span className="px-3 text-[11px] font-semibold text-slate-400 uppercase tracking-wider animate-in fade-in">
+                Navegação Corporativa
+              </span>
+            )}
             <nav className="mt-3 flex flex-col gap-1">
               {navItems.map((item) => {
                 const Icon = item.icon;
@@ -127,20 +142,21 @@ export default function Sidebar({
                       onSelectTab(item.id);
                       if (onCloseMobile) onCloseMobile();
                     }}
+                    title={isSidebarCollapsed ? item.label : undefined}
                     className={`flex items-center justify-between w-full px-3.5 py-2.5 rounded-xl text-[14px] font-semibold transition-all ${
                       highlight
                         ? 'bg-[#1d4ed8] text-white shadow-md'
                         : 'text-slate-300 hover:bg-slate-700/40 hover:text-white'
-                    }`}
+                    } ${isSidebarCollapsed ? 'justify-center px-0' : ''}`}
                   >
                     <div className="flex items-center gap-3">
-                      <Icon className="w-5 h-5 opacity-90" />
-                      <span>{item.label}</span>
+                      <Icon className="w-5 h-5 opacity-90 shrink-0" />
+                      {!isSidebarCollapsed && <span className="animate-in fade-in">{item.label}</span>}
                     </div>
 
-                    {item.badge !== undefined && (
+                    {!isSidebarCollapsed && item.badge !== undefined && (
                       <span
-                        className={`px-2 py-0.5 rounded-full text-[11px] font-bold ${
+                        className={`px-2 py-0.5 rounded-full text-[11px] font-bold animate-in fade-in ${
                           highlight
                             ? 'bg-blue-300 text-blue-950'
                             : 'bg-blue-500/20 text-blue-200'
@@ -157,25 +173,37 @@ export default function Sidebar({
         </div>
 
         {/* Bottom Network Status Card */}
-        <div className="p-3 m-3 rounded-xl bg-slate-800/60 border border-slate-700/50">
-          <div className="flex items-center justify-between mb-1">
-            <span className="text-xs font-semibold text-white">Rede Genesis</span>
-            <span className="flex h-2 w-2 relative">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
-            </span>
+        {!isSidebarCollapsed ? (
+          <div className="p-3 m-3 rounded-xl bg-slate-800/60 border border-slate-700/50 animate-in fade-in">
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-xs font-semibold text-white">Rede Genesis</span>
+              <span className="flex h-2 w-2 relative">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+              </span>
+            </div>
+            <p className="text-[12px] text-slate-300 mb-2 leading-relaxed">
+              Todos os subsistemas operacionais integrados.
+            </p>
+            <button
+              onClick={onOpenHelp}
+              className="inline-flex items-center gap-1.5 text-[11px] font-medium text-blue-300 hover:text-white transition-colors"
+            >
+              <HelpCircle className="w-3.5 h-3.5" />
+              <span>Suporte & Políticas</span>
+            </button>
           </div>
-          <p className="text-[12px] text-slate-300 mb-2 leading-relaxed">
-            Todos os subsistemas operacionais integrados.
-          </p>
-          <button
-            onClick={onOpenHelp}
-            className="inline-flex items-center gap-1.5 text-[11px] font-medium text-blue-300 hover:text-white transition-colors"
-          >
-            <HelpCircle className="w-3.5 h-3.5" />
-            <span>Suporte & Políticas</span>
-          </button>
-        </div>
+        ) : (
+          <div className="flex flex-col items-center pb-6">
+            <button
+              onClick={onOpenHelp}
+              className="p-2 rounded-xl text-blue-300 hover:bg-slate-700/40 hover:text-white transition-colors"
+              title="Suporte & Políticas"
+            >
+              <HelpCircle className="w-5 h-5" />
+            </button>
+          </div>
+        )}
       </aside>
     </>
   );

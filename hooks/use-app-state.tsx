@@ -56,7 +56,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
         brandManualOpen, setBrandManualOpen,
         chatBotOpen, setChatBotOpen,
         videoModal, setVideoModal,
-        toastMessage, showToast
+        toastMessage, showToast,
+        isSidebarCollapsed, setSidebarCollapsed
       }}
     >
       {children}

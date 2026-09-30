@@ -22,9 +22,9 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
     selectedEmployee, setSelectedEmployee,
     selectedRequest, setSelectedRequest,
     brandManualOpen, setBrandManualOpen,
-    chatBotOpen, setChatBotOpen,
     videoModal, setVideoModal,
-    toastMessage, showToast
+    toastMessage, showToast,
+    isSidebarCollapsed
   } = useAppState();
 
   const router = useRouter();
@@ -64,7 +64,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         onOpenHelp={() => setChatBotOpen(true)}
       />
 
-      <div className="lg:pl-64 flex flex-col min-h-screen">
+      <div className={`transition-all duration-300 flex flex-col min-h-screen ${isSidebarCollapsed ? 'lg:pl-20' : 'lg:pl-64'}`}>
         <Header
           onToggleMobileMenu={() => setMobileMenuOpen(!mobileMenuOpen)}
           searchQuery={searchQuery}

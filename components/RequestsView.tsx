@@ -28,8 +28,11 @@ import {
   ChevronRight,
   ArrowRight,
   ShieldAlert,
+  ShieldAlert,
+  RefreshCw,
 } from 'lucide-react';
-import { RequestItem, INITIAL_REQUESTS } from '@/lib/data';
+import { RequestItem } from '@/lib/data';
+import { useRequests } from '@/hooks/use-requests';
 
 interface RequestsViewProps {
   onOpenMarketingForm: () => void;
@@ -41,8 +44,9 @@ export default function RequestsView({
   onOpenMarketingForm,
   onSelectRequest,
   onOpenBotChat,
+  onOpenBotChat,
 }: RequestsViewProps) {
-  const [requests, setRequests] = useState<RequestItem[]>(INITIAL_REQUESTS);
+  const { requests, isLoading, isError, refetch } = useRequests();
   const [activeFilter, setActiveFilter] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -442,7 +446,37 @@ export default function RequestsView({
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100 text-xs">
-                    {filteredRequests.map((req) => (
+                    {isLoading && (
+                      <tr>
+                        <td colSpan={8} className="py-8 text-center animate-pulse">
+                          <div className="flex flex-col items-center gap-2">
+                            <div className="w-8 h-8 rounded-full bg-slate-200" />
+                            <div className="w-32 h-4 bg-slate-200 rounded-full" />
+                            <span className="text-slate-400 font-semibold">Carregando solicitações...</span>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                    {isError && (
+                      <tr>
+                        <td colSpan={8} className="py-8">
+                          <div className="bg-red-50 text-red-600 rounded-2xl p-6 mx-4 flex flex-col items-center justify-center text-center gap-3 border border-red-100">
+                            <span className="font-bold text-sm">Falha ao carregar as solicitações</span>
+                            <button onClick={() => refetch()} className="px-4 py-2 mt-2 bg-white text-red-600 rounded-xl font-bold shadow-sm text-xs border border-red-200 hover:bg-red-50 flex items-center gap-1.5">
+                              <RefreshCw className="w-3.5 h-3.5" /> Tentar Novamente
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                    {!isLoading && !isError && filteredRequests.length === 0 && (
+                      <tr>
+                        <td colSpan={8} className="py-12 text-center text-slate-500">
+                          Nenhuma solicitação encontrada para os filtros atuais.
+                        </td>
+                      </tr>
+                    )}
+                    {!isLoading && !isError && filteredRequests.map((req) => (
                       <tr
                         key={req.id}
                         className="hover:bg-slate-50/60 transition-colors group cursor-pointer"
