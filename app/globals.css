@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+@layer base {
+  * {
+    border-color: #e2e8f0;
+  }
+  body {
+    background-color: #f8f9ff;
+    color: #0b1c30;
+    font-family: var(--font-plus-jakarta), system-ui, -apple-system, sans-serif;
+  }
+}
+
+/* Custom scrollbar utility */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
