@@ -23,6 +23,8 @@ interface AppState {
   setVideoModal: (video: { title: string; cover: string; duration?: string } | null) => void;
   toastMessage: string | null;
   showToast: (msg: string) => void;
+  isSidebarCollapsed: boolean;
+  setSidebarCollapsed: (val: boolean) => void;
 }
 
 const AppContext = createContext<AppState | undefined>(undefined);
@@ -37,6 +39,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [chatBotOpen, setChatBotOpen] = useState(false);
   const [videoModal, setVideoModal] = useState<{ title: string; cover: string; duration?: string } | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [isSidebarCollapsed, setSidebarCollapsed] = useState(true);
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
