@@ -13,7 +13,9 @@ import {
   User,
   Shield,
   LogOut,
+  CheckCircle2,
 } from 'lucide-react';
+import { useNotifications } from '@/hooks/use-notifications';
 
 export const USER_AVATAR_URL = 'https://lh3.googleusercontent.com/aida/AEtjO1WNA9nH2zY9EotrNixsrRtNBhwi_E0dlvwDGcws0lFFXOAQFQZKLtjtz9XXWZhaA-rVX6fZJHZ0VxnO_B5TkkiZLiIELSMYMIGJ54TQvvaFwsPe_qK4zBmn7JMYYIj4f08AC-H_gdPgFd7omdHlMU9dxdf1DakS-gBzCCyzbVjig8HmyDGwmoWe2V5pMycdWFUWN_tR326ylET4GD-g4cOE276CduGrLzsMkiuBW02AFka7arfrqlzKIvs';
 
@@ -36,6 +38,8 @@ export default function Header({
   const [appsOpen, setAppsOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [messagesOpen, setMessagesOpen] = useState(false);
+
+  const { notifications, unreadCount, markAsRead } = useNotifications();
 
   const searchInputRef = useRef<HTMLInputElement>(null);
 
@@ -96,42 +100,75 @@ export default function Header({
               className="relative p-2 rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors"
             >
               <Bell className="w-5 h-5" />
-              <span className="absolute top-1.5 right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#1d4ed8] text-white text-[10px] font-bold">
-                3
-              </span>
+              {unreadCount > 0 && (
+                <span className="absolute top-1.5 right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#1d4ed8] text-white text-[10px] font-bold">
+                  {unreadCount}
+                </span>
+              )}
             </button>
 
             {notificationsOpen && (
               <div className="absolute right-0 mt-2 w-80 sm:w-96 rounded-2xl bg-white shadow-xl border border-slate-200 p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
                 <div className="flex items-center justify-between px-2 py-1.5 border-b border-slate-100 mb-2">
                   <span className="font-semibold text-sm text-slate-800">Notificações Recentes</span>
-                  <span className="text-xs text-blue-600 hover:underline cursor-pointer">Marcar todas como lidas</span>
+                  {unreadCount > 0 && (
+                    <button
+                      onClick={() => {
+                        notifications.forEach(n => {
+                          if (!n.is_read) markAsRead(n.id);
+                        });
+                      }}
+                      className="text-xs text-blue-600 hover:underline cursor-pointer"
+                    >
+                      Marcar todas como lidas
+                    </button>
+                  )}
                 </div>
-                <div className="space-y-1.5 max-h-80 overflow-y-auto">
-                  <div className="p-2.5 rounded-xl bg-blue-50/60 hover:bg-blue-50 transition-colors flex items-start gap-3">
-                    <span className="w-2 h-2 rounded-full bg-blue-600 mt-1.5 shrink-0" />
-                    <div className="flex flex-col text-xs">
-                      <span className="font-semibold text-slate-900">Demanda #MKT-4102 aprovada!</span>
-                      <span className="text-slate-600 mt-0.5">Sua solicitação de campanha foi aprovada pela coordenação.</span>
-                      <span className="text-slate-400 text-[10px] mt-1">Há 15 minutos</span>
+                <div className="space-y-1.5 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200 hover:scrollbar-thumb-slate-300">
+                  {notifications.length === 0 ? (
+                    <div className="py-8 text-center text-xs text-slate-500">
+                      Nenhuma notificação encontrada.
                     </div>
-                  </div>
-                  <div className="p-2.5 rounded-xl hover:bg-slate-50 transition-colors flex items-start gap-3">
-                    <span className="w-2 h-2 rounded-full bg-transparent mt-1.5 shrink-0" />
-                    <div className="flex flex-col text-xs">
-                      <span className="font-semibold text-slate-900">Aniversário de Camila Duarte hoje</span>
-                      <span className="text-slate-600 mt-0.5">Deixe seus parabéns no mural do Genesis Feed.</span>
-                      <span className="text-slate-400 text-[10px] mt-1">Há 1 hora</span>
-                    </div>
-                  </div>
-                  <div className="p-2.5 rounded-xl hover:bg-slate-50 transition-colors flex items-start gap-3">
-                    <span className="w-2 h-2 rounded-full bg-transparent mt-1.5 shrink-0" />
-                    <div className="flex flex-col text-xs">
-                      <span className="font-semibold text-slate-900">Novo chamado atribuído #SOL-9821</span>
-                      <span className="text-slate-600 mt-0.5">Equipamentos e Service Desk alocou Roberto Silva.</span>
-                      <span className="text-slate-400 text-[10px] mt-1">Há 3 horas</span>
-                    </div>
-                  </div>
+                  ) : (
+                    notifications.map((n) => (
+                      <div
+                        key={n.id}
+                        className={`p-2.5 rounded-xl transition-colors flex items-start gap-3 relative ${
+                          n.is_read ? 'hover:bg-slate-50' : 'bg-blue-50/60 hover:bg-blue-50'
+                        }`}
+                      >
+                        <span
+                          className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${
+                            n.is_read ? 'bg-transparent' : 'bg-blue-600'
+                          }`}
+                        />
+                        <div className="flex flex-col text-xs w-full pr-6">
+                          <span className="font-semibold text-slate-900">{n.title}</span>
+                          <span className="text-slate-600 mt-0.5">{n.message}</span>
+                          <span className="text-slate-400 text-[10px] mt-1">
+                            {new Date(n.created_at).toLocaleDateString('pt-BR', {
+                              day: '2-digit',
+                              month: 'short',
+                              hour: '2-digit',
+                              minute: '2-digit'
+                            })}
+                          </span>
+                        </div>
+                        {!n.is_read && (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              markAsRead(n.id);
+                            }}
+                            className="absolute right-2 top-2 p-1 text-blue-500 hover:text-blue-700 bg-white rounded-full shadow-xs border border-blue-100"
+                            title="Marcar como lida"
+                          >
+                            <CheckCircle2 className="w-3.5 h-3.5" />
+                          </button>
+                        )}
+                      </div>
+                    ))
+                  )}
                 </div>
               </div>
             )}
